@@ -1,11 +1,10 @@
-import 'dart:io';
+//import 'dart:io';
 import 'package:dio/dio.dart';
 
 import '../const/net_const.dart';
 
 class DioHelper {
-  static  Dio dio= Dio();
-
+  static Dio dio = Dio();
   void init() {
     //super.init();
     Dio dio = Dio(BaseOptions(
@@ -14,8 +13,12 @@ class DioHelper {
       headers: {"accept": "application/json"},
       receiveDataWhenStatusError: true,
     ));
-    dio.interceptors
-        .add(LogInterceptor(requestBody: true, responseBody: true, request: true, requestHeader: true, error: true, responseHeader: true));
-
+    dio.interceptors.add(LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        request: true,
+        requestHeader: true,
+        error: true,
+        responseHeader: true));
   }
 }

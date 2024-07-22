@@ -131,7 +131,7 @@ class SetFreelancerAddPhotoView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:  Padding(
+      bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 45),
         child: GestureDetector(
           onTap: () {
@@ -139,19 +139,21 @@ class SetFreelancerAddPhotoView extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SetFreelancerSendOnYouView(
-                      name: name,
-                      password: password,
-                      photo: '',
-                      city: city,
-                      email: email, date_of_burn: date_of_burn, categories: [],
-                    )));
+                          name: name,
+                          password: password,
+                          photo: '',
+                          city: city,
+                          email: email,
+                          date_of_burn: date_of_burn,
+                          categories: [],
+                        )));
           },
           child: Container(
             height: 52,
             width: MediaQuery.of(context).size.width - 10,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color:  const  Color(0xffACC1B4),
+              color: const Color(0xffACC1B4),
             ),
             child: Center(
               child: Text(translateController.Continue,

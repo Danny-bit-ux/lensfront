@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newlensfront/view/main/map_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/order_controller.dart';
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
     final profileModel = context.watch<GetUserProfile>();
     orderController.getAllOrders('');
     return Obx(
-          () => Scaffold(
+      () => Scaffold(
         drawer: const DrawerWidget(),
         body: SafeArea(
           child: GestureDetector(
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.grey[300],
-                        //  backgroundImage: image,
+                          //  backgroundImage: image,
                           child: Builder(builder: (context) {
                             return IconButton(
                               onPressed: () {
@@ -60,18 +61,19 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                     useSafeArea: false,
                                     context: context,
                                     barrierDismissible:
-                                    true, // user must tap button!
+                                        true, // user must tap button!
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        backgroundColor:
-                                        const Color(0xff2D2D2D).withOpacity(0),
+                                        backgroundColor: const Color(0xff2D2D2D)
+                                            .withOpacity(0),
                                         contentPadding: EdgeInsets.zero,
-                                        insetPadding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
+                                        insetPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 12),
                                         content: const NoLoginAlert(),
                                       );
                                     });
-                              //  Scaffold.of(context).openDrawer();
+                                //  Scaffold.of(context).openDrawer();
                               },
                               icon: Icon(
                                 Icons.person,
@@ -93,11 +95,11 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                   useSafeArea: false,
                                   context: context,
                                   barrierDismissible:
-                                  true, // user must tap button!
+                                      true, // user must tap button!
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      backgroundColor:
-                                      const Color(0xff2D2D2D).withOpacity(0),
+                                      backgroundColor: const Color(0xff2D2D2D)
+                                          .withOpacity(0),
                                       contentPadding: EdgeInsets.zero,
                                       insetPadding: const EdgeInsets.symmetric(
                                           horizontal: 12),
@@ -140,7 +142,7 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                     hintText: "Поиск",
                                     prefixIcon: const Icon(Icons.search),
                                     prefixStyle:
-                                    GoogleFonts.inter(color: Colors.grey)),
+                                        GoogleFonts.inter(color: Colors.grey)),
                               ),
                             )),
                         IconButton(
@@ -160,15 +162,15 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const OrdersFromCatView(
-                                          categoryName: 51,
-                                          category:
-                                          'Ремонт и строительство',
-                                        )));
+                                            const OrdersFromCatView(
+                                              categoryName: 51,
+                                              category:
+                                                  'Ремонт и строительство',
+                                            )));
                               },
                               child: ServicesWidget(
                                 name:
-                                translateController.Repair_and_construction,
+                                    translateController.Repair_and_construction,
                                 image: 'image/builder.png',
                                 color: const Color.fromRGBO(223, 248, 255, 1),
                                 width: MediaQuery.of(context).size.width * 0.44,
@@ -186,10 +188,10 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                        const OrdersFromCatView(
-                                          categoryName: 17,
-                                          category: 'Красота и здоровье',
-                                        )));
+                                            const OrdersFromCatView(
+                                              categoryName: 17,
+                                              category: 'Красота и здоровье',
+                                            )));
                               },
                               child: ServicesWidget(
                                 name: translateController.Beauty_and_wellness,
@@ -220,14 +222,14 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const OrdersFromCatView(
-                                            categoryName: 63,
-                                            category: 'Бытовые услуги',
-                                          )));
+                                              const OrdersFromCatView(
+                                                categoryName: 63,
+                                                category: 'Бытовые услуги',
+                                              )));
                                 },
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 6.0, left: 6),
+                                      const EdgeInsets.only(top: 6.0, left: 6),
                                   child: Stack(children: [
                                     Image.asset(
                                       "image/Img.png",
@@ -260,18 +262,18 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const OrdersFromCatView(
-                                            categoryName: 38,
-                                            category: 'Консультация',
-                                          )));
+                                              const OrdersFromCatView(
+                                                categoryName: 38,
+                                                category: 'Консультация',
+                                              )));
                                 },
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 8.0, left: 8),
+                                      const EdgeInsets.only(top: 8.0, left: 8),
                                   child: Stack(children: [
                                     Padding(
                                       padding:
-                                      const EdgeInsets.only(left: 15.0),
+                                          const EdgeInsets.only(left: 15.0),
                                       child: Image.asset(
                                         "image/computer.png",
                                         width: 72,
@@ -304,18 +306,18 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const OrdersFromCatView(
-                                            categoryName: 7,
-                                            category: 'Перевозки',
-                                          )));
+                                              const OrdersFromCatView(
+                                                categoryName: 7,
+                                                category: 'Перевозки',
+                                              )));
                                 },
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 8.0, left: 8),
+                                      const EdgeInsets.only(top: 8.0, left: 8),
                                   child: Stack(children: [
                                     Padding(
                                       padding:
-                                      const EdgeInsets.only(left: 15.0),
+                                          const EdgeInsets.only(left: 15.0),
                                       child: Image.asset(
                                         "image/Van.png",
                                         width: 72,
@@ -350,8 +352,8 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const AllCategoriesView(
-                                  services: false,
-                                )));
+                                      services: false,
+                                    )));
                       },
                       child: Container(
                         width: 55,
@@ -391,6 +393,29 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
+                          "Смотреть на карте",
+                          style: GoogleFonts.inter(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MapView()));
+                            },
+                            child: Icon(Icons.map_rounded)),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
                           translateController.Recent_applications,
                           style: GoogleFonts.inter(
                               color: Colors.black,
@@ -403,7 +428,7 @@ class _HomeScreenState extends State<NoLoginHomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const LastOrdersView()));
+                                          const LastOrdersView()));
                             },
                             child: Text(translateController.All_applications)),
                       ],

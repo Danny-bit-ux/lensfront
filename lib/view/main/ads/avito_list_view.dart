@@ -71,190 +71,193 @@ class _AvitoListViewState extends State<AvitoListView> {
           //     icon: const Icon(Icons.add)),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.bottomSheet(const AvitoFiltersMenu());
-                    },
-                    child: Container(
-
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text('Фильтры',style: TextStyle(color: Colors.white),),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.bottomSheet(const AvitoFiltersMenu());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Фильтры',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 213,
-                width: MediaQuery.of(context).size.width,
-                child: GridView.count(
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 20,
-                  crossAxisCount: 2,
-                  childAspectRatio: (100 / 153),
-                  children:
-                      List.generate(getAdverbsModel.adverbs.length, (index) {
-                    var item = getAdverbsModel.adverbs[index];
-                    return GestureDetector(
-                      onTap: () async {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdverbView(
-                                      auth: widget.auth,
-                                      adverbModel:
-                                          getAdverbsModel.adverbs[index],
-                                    )));
-                      },
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 120,
-                            child: PageView(
-                              controller: pageController,
-                              onPageChanged: (index) {
-                                setState(() {
-                                  currentPageIndex = index;
-                                });
-                              },
+                  ],
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 213,
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 20,
+                    crossAxisCount: 2,
+                    childAspectRatio: (100 / 153),
+                    children:
+                        List.generate(getAdverbsModel.adverbs.length, (index) {
+                      var item = getAdverbsModel.adverbs[index];
+                      return GestureDetector(
+                        onTap: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdverbView(
+                                        auth: widget.auth,
+                                        adverbModel:
+                                            getAdverbsModel.adverbs[index],
+                                      )));
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 120,
+                              child: PageView(
+                                controller: pageController,
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    currentPageIndex = index;
+                                  });
+                                },
+                                children:
+                                    List.generate(item.images ?? 0, (index) {
+                                  return Container(
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topRight: Radius.circular(16),
+                                        topLeft: Radius.circular(16),
+                                      ),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            '${ServerRoutes.host}/get_photo?path=${item.ccid}&ind=${index + 1}',
+                                          ),
+                                          fit: BoxFit.fitWidth),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children:
                                   List.generate(item.images ?? 0, (index) {
-                                return Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(16),
-                                      topLeft: Radius.circular(16),
-                                    ),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                          '${ServerRoutes.host}/get_photo?path=${item.ccid}&ind=${index + 1}',
-                                        ),
-                                        fit: BoxFit.fitWidth),
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 1.5),
+                                  child: CircleAvatar(
+                                    radius: 3,
+                                    backgroundColor: index == currentPageIndex
+                                        ? Colors.red
+                                        : Colors
+                                            .grey, // Изменение цвета в зависимости от текущего индекса
                                   ),
                                 );
                               }),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(item.images ?? 0, (index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 1.5),
-                                child: CircleAvatar(
-                                  radius: 3,
-                                  backgroundColor: index == currentPageIndex
-                                      ? Colors.red
-                                      : Colors
-                                          .grey, // Изменение цвета в зависимости от текущего индекса
-                                ),
-                              );
-                            }),
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.age.toString(),
-                                  style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  item.price.toString(),
-                                  style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      item.userName,
-                                      style: GoogleFonts.inter(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff808080),
-                                      ),
-                                    ),
-                                    Image.asset(
-                                        'assets/design/images/fi_star.png'),
-                                    Text(
-                                      item.userRating.toString(),
-                                      style: GoogleFonts.inter(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10,
-                                        color: const Color(0xffF9CF3A),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    Text(
-                                      item.userReviews.toString(),
-                                      style: GoogleFonts.inter(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xff808080),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  item.address.toString(),
-                                  style: GoogleFonts.inter(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 8,
-                                      color: const Color(0xff808080)),
-                                )
-                              ],
+                            const SizedBox(
+                              height: 6,
                             ),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-                ),
-              )
-            ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.age.toString(),
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    item.price.toString(),
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        item.userName,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff808080),
+                                        ),
+                                      ),
+                                      Image.asset(
+                                          'assets/design/images/fi_star.png'),
+                                      Text(
+                                        item.userRating.toString(),
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 10,
+                                          color: const Color(0xffF9CF3A),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        item.userReviews.toString(),
+                                        style: GoogleFonts.inter(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xff808080),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    item.address.toString(),
+                                    style: GoogleFonts.inter(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 8,
+                                        color: const Color(0xff808080)),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-
 
 class ChangeRatingBottomSheetAvito extends StatelessWidget {
   const ChangeRatingBottomSheetAvito({super.key});
@@ -263,7 +266,7 @@ class ChangeRatingBottomSheetAvito extends StatelessWidget {
   Widget build(BuildContext context) {
     final getAdverbsModel = Provider.of<GetAdsList>(context);
     return Obx(
-          () => Container(
+      () => Container(
         height: 390,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
@@ -320,14 +323,14 @@ class ChangeRatingBottomSheetAvito extends StatelessWidget {
                       width: 22,
                       decoration: getAdverbsModel.ratingMin != '3.9'
                           ? BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                          Border.all(color: const Color(0xff3333333)))
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                              border:
+                                  Border.all(color: const Color(0xff3333333)))
                           : BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                     ),
                   ),
                   const SizedBox(
@@ -367,14 +370,14 @@ class ChangeRatingBottomSheetAvito extends StatelessWidget {
                       width: 22,
                       decoration: getAdverbsModel.ratingMin != '4.4'
                           ? BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                          Border.all(color: const Color(0xff3333333)))
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                              border:
+                                  Border.all(color: const Color(0xff3333333)))
                           : BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                     ),
                   ),
                   const SizedBox(
@@ -414,14 +417,14 @@ class ChangeRatingBottomSheetAvito extends StatelessWidget {
                       width: 22,
                       decoration: getAdverbsModel.ratingMin != '4.9'
                           ? BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(100),
-                          border:
-                          Border.all(color: const Color(0xff3333333)))
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(100),
+                              border:
+                                  Border.all(color: const Color(0xff3333333)))
                           : BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
                     ),
                   ),
                   const SizedBox(
@@ -476,6 +479,7 @@ class ChangeRatingBottomSheetAvito extends StatelessWidget {
     );
   }
 }
+
 class ChangePriceBottomSheet extends StatelessWidget {
   const ChangePriceBottomSheet({super.key});
 
@@ -519,8 +523,8 @@ class ChangePriceBottomSheet extends StatelessWidget {
                     onTap: () {
                       _maxPriceController.clear();
                       _minPriceController.clear();
-                    getAdverbsModel.priceMin = '0';
-                  getAdverbsModel.priceMax = '9999999';
+                      getAdverbsModel.priceMin = '0';
+                      getAdverbsModel.priceMax = '9999999';
                     },
                     child: const Text('Сбросить'))
               ],
@@ -600,11 +604,12 @@ class ChangePriceBottomSheet extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (_minPriceController.text.isNotEmpty) {
-             getAdverbsModel.priceMin= _minPriceController.text;
+                getAdverbsModel.priceMin = _minPriceController.text;
               }
               if (_maxPriceController.text.isNotEmpty) {
-              getAdverbsModel.priceMax = _maxPriceController.text;
-              };
+                getAdverbsModel.priceMax = _maxPriceController.text;
+              }
+              ;
               getAdverbsModel.getSortOrders();
               Navigator.pop(context);
             },
@@ -632,8 +637,6 @@ class ChangePriceBottomSheet extends StatelessWidget {
   }
 }
 
-
-
 class AvitoFiltersMenu extends StatefulWidget {
   const AvitoFiltersMenu({super.key});
 
@@ -644,105 +647,107 @@ class AvitoFiltersMenu extends StatefulWidget {
 class _AvitoFiltersMenuState extends State<AvitoFiltersMenu> {
   @override
   Widget build(BuildContext context) {
-  final controller =   Provider.of<GetAdsList>(context);
+    final controller = Provider.of<GetAdsList>(context);
     return Container(
       height: 300,
       color: Colors.white,
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child:Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              const CreateAdverbSelectCategoryView(
-                                create: false,
-                              )));
-                      setState(() {
-
-                      });
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: controller.category == null || controller.category == 'no'
-                              ? const Color(0xff333333)
-                              : const Color(0xffF14F44),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            controller.category.toString() == 'no' ? 'Категория' : controller.category.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ))),
-                const SizedBox(
-                  height: 8,
-                ),
-                GestureDetector(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
                   onTap: () {
-                    Get.bottomSheet(const ChangePriceBottomSheet());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateAdverbSelectCategoryView(
+                                  create: false,
+                                )));
+                    setState(() {});
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: controller.priceMax == '9999999' &&
-                          controller.priceMin == '0'
-                          ? const Color(0xff333333)
-                          : const Color(0xffF14F44),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 12),
-                      child: Text(
-                        controller.priceMax == '9999999' &&
+                      decoration: BoxDecoration(
+                        color: controller.category == null ||
+                                controller.category == 'no'
+                            ? const Color(0xff333333)
+                            : const Color(0xffF14F44),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          controller.category.toString() == 'no'
+                              ? 'Категория'
+                              : controller.category.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ))),
+              const SizedBox(
+                height: 8,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.bottomSheet(const ChangePriceBottomSheet());
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: controller.priceMax == '9999999' &&
                             controller.priceMin == '0'
-                            ? 'Цена'
-                            : "От ${controller.priceMin} до ${controller.priceMax}",
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
+                        ? const Color(0xff333333)
+                        : const Color(0xffF14F44),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12),
+                    child: Text(
+                      controller.priceMax == '9999999' &&
+                              controller.priceMin == '0'
+                          ? 'Цена'
+                          : "От ${controller.priceMin} до ${controller.priceMax}",
+                      style: GoogleFonts.inter(
+                        color: Colors.white,
+                        fontSize: 12,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 8,),
-                GestureDetector(
-                  onTap: () {
-                    controller.changeCategory(null);
-                    controller.clearFilters();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xff333333),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 12),
-                      child: Text(
-                        'Сбросить фильтры',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              GestureDetector(
+                onTap: () {
+                  controller.changeCategory(null);
+                  controller.clearFilters();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xff333333),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12),
+                    child: Text(
+                      'Сбросить фильтры',
+                      style: GoogleFonts.inter(
+                        color: Colors.white,
+                        fontSize: 12,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-
+      ),
     );
   }
 }
