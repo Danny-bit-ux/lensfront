@@ -30,7 +30,13 @@ class _MapViewState extends State<MapView> {
     }
   }
 
-  List<LatLng> get _mapPoints => const [];
+  //products
+  List<LatLng> get _productPoints => const [
+        LatLng(55.755793, 37.617134),
+        LatLng(55.095960, 38.765519),
+        LatLng(56.129038, 40.406502),
+        LatLng(54.513645, 36.261268),
+      ];
 
   @override
   void initState() {
@@ -48,34 +54,22 @@ class _MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = TextEditingController();
-    final markers = _mapPoints
-        .map(
-          (latlng) => Marker(
-            point: latlng,
-            child: const Icon(
-              Icons.place,
-              color: Colors.red,
-              size: 60,
-            ),
-          ),
-        )
-        .toList();
+    final _searchOnMapProductController = TextEditingController();
     return Scaffold(
       body: Stack(
         children: [
           FlutterMap(
             mapController: _mapController,
             options: const MapOptions(
-              initialCenter: LatLng(0, 0),
-              initialZoom: 1,
+              initialCenter: LatLng(55.755793, 37.617134),
+              initialZoom: 5,
               minZoom: 0,
               maxZoom: 19,
             ),
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.flutter_map_example',
+                userAgentPackageName: 'lensfront',
               ),
               CurrentLocationLayer(
                 style: LocationMarkerStyle(
@@ -93,15 +87,40 @@ class _MapViewState extends State<MapView> {
                 ),
                 moveAnimationDuration: Duration.zero,
               ),
-              MarkerLayer(markers: markers)
+              MarkerLayer(
+                markers: _getProductMarkers(_productPoints),
+              )
             ],
           ),
-          _searchPlace(context, controller),
+          Positioned(
+            top: 50,
+            left: 50,
+            child: Container(
+                width: MediaQuery.of(context).size.width - 90,
+                height: 41,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
+                child: MaterialButton(
+                  onPressed: () {},
+                  child: TextField(
+                    controller: _searchOnMapProductController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Поиск",
+                        prefixIcon: const Icon(Icons.search),
+                        prefixStyle: GoogleFonts.inter(color: Colors.grey)),
+                  ),
+                )),
+          ),
           Positioned(
             bottom: 20,
             right: 5,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                updateLocation();
+                initState();
+              },
               child: Icon(Icons.location_searching),
             ),
           ),
@@ -110,27 +129,19 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  Positioned _searchPlace(
-      BuildContext context, TextEditingController controller) {
-    return Positioned(
-      top: 50,
-      left: 50,
-      child: Container(
-          width: MediaQuery.of(context).size.width - 90,
-          height: 41,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(12)),
-          child: MaterialButton(
-            onPressed: () {},
-            child: TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Поиск",
-                  prefixIcon: const Icon(Icons.search),
-                  prefixStyle: GoogleFonts.inter(color: Colors.grey)),
-            ),
-          )),
+  List<Marker> _getProductMarkers(List<LatLng> _productPoints) {
+    return List.generate(
+      _productPoints.length,
+      (index) => Marker(
+        point: _productPoints[index],
+        child: const Icon(
+          Icons.place,
+          color: Colors.red,
+        ),
+        width: 50,
+        height: 50,
+        alignment: Alignment.center,
+      ),
     );
   }
 }
